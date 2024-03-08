@@ -3,22 +3,25 @@ package com.baldur.jwtauth.controller;
 import com.baldur.jwtauth.model.User;
 import com.baldur.jwtauth.repository.UserRepository;
 import com.baldur.jwtauth.service.UserDetailsImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
+//import java.util.logging.LogManager;
+//import java.util.logging.Logger;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/test")
 public class DemoController {
+
+    private final Logger logger = LogManager.getLogger(DemoController.class);
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -63,6 +66,11 @@ public class DemoController {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 //        }
 
+        logger.trace("This is a TRACE message");
+        logger.debug("This is a DEBUG message");
+        logger.info("This is an INFO message");
+        logger.warn("This is a WARN message");
+        logger.error("This is an ERROR message");
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isPresent()) {
             return ResponseEntity.ok(UserDetailsImpl.build(user.get()));
