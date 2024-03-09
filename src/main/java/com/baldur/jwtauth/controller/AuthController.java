@@ -1,5 +1,6 @@
 package com.baldur.jwtauth.controller;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,7 @@ import com.baldur.jwtauth.payload.response.MessageResponse;
 import com.baldur.jwtauth.repository.RoleRepository;
 import com.baldur.jwtauth.repository.UserRepository;
 import com.baldur.jwtauth.service.UserDetailsImpl;
+import com.baldur.jwtauth.service.UserDetailsServiceImpl;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +26,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -42,6 +40,9 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     RoleRepository roleRepository;
@@ -126,5 +127,14 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+
+    @GetMapping("/current-user")
+    public ResponseEntity<UserDetails> getCurrentLoggedInUserDetails(Principal principal){
+
+        UserDetails user =  userDetailsService.loadUserByUsername(principal.getName());
+
+        return ResponseEntity.ok(user);
     }
 }
