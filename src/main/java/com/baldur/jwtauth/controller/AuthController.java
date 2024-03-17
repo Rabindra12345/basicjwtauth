@@ -20,6 +20,8 @@ import com.baldur.jwtauth.service.UserDetailsImpl;
 import com.baldur.jwtauth.service.UserDetailsServiceImpl;
 import jakarta.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,6 +37,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    private final Logger logger = LogManager.getLogger(AuthController.class);
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -133,6 +137,7 @@ public class AuthController {
     @GetMapping("/current-user")
     public ResponseEntity<UserDetails> getCurrentLoggedInUserDetails(Principal principal){
 
+        logger.info("PRINTING CURRENTLY LOGGED IN USER__time changed.");
         UserDetails user =  userDetailsService.loadUserByUsername(principal.getName());
 
         return ResponseEntity.ok(user);

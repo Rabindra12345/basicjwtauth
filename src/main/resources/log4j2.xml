@@ -8,11 +8,19 @@
         <Console name="Console" target="SYSTEM_OUT" follow="true">
             <PatternLayout pattern="${layout}" />
         </Console>
-        <File name="appLog" fileName="/home/rabindra-jar/springboot/logpath/LogFile.log">
+<!--        <File name="appLog" fileName="/home/rabindra-jar/springboot/logpath/LogFile.log">-->
+        <RollingFile name="appLog" fileName="/home/rabindra-jar/springboot/logpath/LogFile.log"
+                     filePattern="/home/rabindra-jar/springboot/logpath/LogFile-%d{yyyy-MM-dd}.log.gz">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>
-        </File>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+<!--        </File>-->
+        </RollingFile>
     </Appenders>
 
     <Loggers>
