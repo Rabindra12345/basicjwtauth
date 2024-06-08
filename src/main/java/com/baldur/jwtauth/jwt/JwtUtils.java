@@ -1,5 +1,6 @@
 package com.baldur.jwtauth.jwt;
 
+import com.baldur.jwtauth.model.User;
 import com.baldur.jwtauth.service.UserDetailsImpl;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
 
 import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Component
@@ -26,11 +29,14 @@ public class JwtUtils {
     public String generateJwtToken(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        LocalDateTime tokenExpirationTime = LocalDateTime.now().plusSeconds(120);
+//        Date currentTimeInDate = Date.from(expirationTime.atZone(ZoneId.systemDefault()).toInstant());
 
+        Date tokenExpirationTimeInDate = Date.from(tokenExpirationTime.atZone(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setExpiration(tokenExpirationTimeInDate)
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -59,5 +65,20 @@ public class JwtUtils {
         }
 
         return false;
+    }
+
+    public String generateJwtTokenWithUserInfo(User user) {
+
+//        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        LocalDateTime tokenExpirationTime = LocalDateTime.now().plusSeconds(120);
+//        Date currentTimeInDate = Date.from(expirationTime.atZone(ZoneId.systemDefault()).toInstant());
+
+        Date tokenExpirationTimeInDate = Date.from(tokenExpirationTime.atZone(ZoneId.systemDefault()).toInstant());
+        return Jwts.builder()
+                .setSubject((user.getUsername()))
+                .setIssuedAt(new Date())
+                .setExpiration(tokenExpirationTimeInDate)
+                .signWith(key(), SignatureAlgorithm.HS256)
+                .compact();
     }
 }

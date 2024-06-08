@@ -6,6 +6,7 @@ import com.baldur.jwtauth.model.User;
 import com.baldur.jwtauth.payload.request.SignUpRequest;
 import com.baldur.jwtauth.repository.RoleRepository;
 import com.baldur.jwtauth.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class JwtauthApplication {
 		SpringApplication.run(JwtauthApplication.class, args);
 
 	}
+
+//	@PostConstruct
+//	public
 
 	@Bean
 	public CommandLineRunner init(UserRepository userRepository,BCryptPasswordEncoder passwordEncoder) {

@@ -1,0 +1,7 @@
+19:04:10.034 [http-nio-8081-exec-2] INFO  com.baldur.jwtauth.controller.DemoController - This is an INFO message
+19:04:10.036 [http-nio-8081-exec-2] WARN  com.baldur.jwtauth.controller.DemoController - This is a WARN message
+19:04:10.036 [http-nio-8081-exec-2] ERROR com.baldur.jwtauth.controller.DemoController - This is an ERROR message
+19:08:14.191 [http-nio-8081-exec-2] DEBUG com.baldur.jwtauth.controller.DemoController - This is a DEBUG message
+19:08:14.192 [http-nio-8081-exec-2] INFO  com.baldur.jwtauth.controller.DemoController - This is an INFO message
+19:08:14.192 [http-nio-8081-exec-2] WARN  com.baldur.jwtauth.controller.DemoController - This is a WARN message
+19:08:14.192 [http-nio-8081-exec-2] ERROR com.baldur.jwtauth.controller.DemoController - This is an ERROR message

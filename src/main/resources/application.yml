@@ -11,10 +11,15 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+  security:
+    user:
+      name: admin
+      password: admin@321!^*#
+      roles: ADMIN
 baldur:
   app:
       jwtSecret: ======================rabindra=Spring===========================
-      jwtExpirationMs: 86400000
+      jwtExpirationMs: 32000
 
 server:
   port: 8081
