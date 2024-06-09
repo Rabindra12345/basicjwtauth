@@ -29,6 +29,13 @@ public class SecurityConfig {
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
+    private final String[] SWAGGER_WHITELIST_URLS={
+            "swagger-ui/**",
+            "/swagger-resources/**",
+            "/swagger-resources",
+            "/v3/api-docs/**"
+    };
+
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
@@ -60,8 +67,13 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests(auth ->
+//                        auth.requestMatchers("/api/auth/**","/swagger-ui/**").permitAll()
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/**").permitAll()
+                        auth.requestMatchers(
+                                        "/api/auth/**"
+                                ).permitAll()
+                                .requestMatchers(SWAGGER_WHITELIST_URLS).permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
                                 .anyRequest().authenticated()
                 );
